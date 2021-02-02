@@ -1,15 +1,19 @@
 package main
 
 import (
+	"fmt"
+	"math"
 	"strings"
+
 )
-import "fmt"
+
 
 var alphabet = `abcdefghijklmnopqrstuvwxyz`
 
 func main() {
 	fmt.Println(rot13(alphabet))
-	fmt.Println(caesar(alphabet, 1))
+	fmt.Println(caesar(alphabet, -2))
+	fmt.Println(caesar(alphabet, 24))
 	fmt.Println(substitution(alphabet, alphabet))
 	fmt.Println(vigenere(`defendtheeastwallofthecastle`, `fortification`))
 }
@@ -40,6 +44,9 @@ func rot13(clear string) string{
 }
 
 func caesar(clear string, shiftval rune) string{
+	if shiftval < 0 {
+		shiftval = rune(26 - math.Abs(float64(shiftval)))
+	}
 	out := strings.Map(func(r rune) rune {return shift(r, shiftval)}, clear)
 	return out
 }
